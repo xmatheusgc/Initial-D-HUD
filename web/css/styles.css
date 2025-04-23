@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    overflow: hidden;
+}
+
+#boost-gauge {
+    position: relative;
+    width: fit-content;
+}
+
+.boost-background {
+    position: absolute;
+    top: -152px;
+    left: 260px;
+    width: 18vh;
+}
+
+.boost-section {
+    position: absolute;
+    top: -152px;
+    left: 260px;
+}
+
+#boost-labels {
+    width: 18vh;
+}
+
+#boost-bar {
+    position: absolute;
+    transform-origin: center 93%;
+    transform: rotate(-133deg);
+    transition: transform .5s;
+    left: 85px;
+    bottom: 80px;
+    height: 95px;
+}
+
+.dashboard {
+    position: relative;
+    width: fit-content;
+}
+
+.rpm-section {
+    position: absolute;
+    right: 15px;
+    bottom: 50px; 
+}
+
+#rpm-bar {
+    position: absolute;
+    transform-origin: 50% 75%;
+    transition: transform .5s;
+    right: 107px;
+    bottom: 26px;   
+}
+
+.gears-section {
+    position: absolute;
+    left: 80px;
+    top: 50px;
+}
+
+.speedometer-section{
+    position: absolute;
+    left: 5px;
+    bottom: 70px;
+}
+
+#speed-unit {
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+}
