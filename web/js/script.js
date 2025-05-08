@@ -71,7 +71,7 @@ function updateSpeedImages(speed) {
         const char = speedStr.charAt(index)
 
         if (speed === 0) {
-            digit.style.visibility = index === 2 ? 'visible' : 'hidden' // Only show the last digit if speed is 0
+            digit.style.visibility = index === 2 ? 'visible' : 'hidden' 
         } else {
             digit.style.visibility = char !== '0' || speedStr.slice(0, index).includes('1') || speedStr.slice(0, index).includes('2') || speedStr.slice(0, index).includes('3') || speedStr.slice(0, index).includes('4') || speedStr.slice(0, index).includes('5') || speedStr.slice(0, index).includes('6') || speedStr.slice(0, index).includes('7') || speedStr.slice(0, index).includes('8') || speedStr.slice(0, index).includes('9') ? 'visible' : 'hidden'
         }
