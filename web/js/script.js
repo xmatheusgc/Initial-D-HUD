@@ -1,107 +1,105 @@
+const hud = document.getElementById('hud');
+const boostGauge = document.getElementById('boost-gauge');
+const rpmLabels = document.getElementById('rpm-labels');
+const rpmBar = document.getElementById('rpm-bar');
+const boostLabels = document.getElementById('boost-labels');
+const boostBar = document.getElementById('boost-bar');
+const gearElement = document.getElementById('gear-digit');
+const speedDigits = [
+    document.getElementById('digit1'),
+    document.getElementById('digit2'),
+    document.getElementById('digit3')
+];
+
+function setVisibility(element, isVisible) {
+    element.style.display = isVisible ? 'block' : 'none';
+}
+
 window.addEventListener('message', function(event) {
-    const { type, isHudOn, speed, gear, rpm, turbo, isVehicleTurboInstaled, IsVehicleHeadlightsOn } = event.data
+    const {
+        type,
+        isHudOn,
+        speed,
+        gear,
+        rpm,
+        turbo,
+        isVehicleTurboInstaled,
+        IsVehicleHeadlightsOn
+    } = event.data;
 
-    if (type === "showHud") {
-        toggleHudVisibility(isHudOn)
-    }
+    switch (type) {
+        case "showHud":
+            toggleHudVisibility(isHudOn);
+            break;
 
-    if (type === "showNightMode") {
-        toggleNightMode(IsVehicleHeadlightsOn)
-    }
+        case "showNightMode":
+            toggleNightMode(IsVehicleHeadlightsOn);
+            break;
 
-    if (type === "updateVehStats") {
-        updateSpeedImages(speed)
-        updateGearImages(gear)
-        updateRpmPointer(rpm)
-        updateTurboPointer(turbo)
-    }
+        case "updateVehStats":
+            updateSpeedImages(speed);
+            updateGearImages(gear);
+            updateRpmPointer(rpm);
+            updateTurboPointer(turbo);
+            break;
 
-    if (type === "showTurboGauge") {
-        toggleTurboGaugeVisibility(isVehicleTurboInstaled)
+        case "showTurboGauge":
+            toggleTurboGaugeVisibility(isVehicleTurboInstaled);
+            break;
     }
-})
+});
 
 function toggleHudVisibility(isHudOn) {
-    const hud = document.getElementById('hud')
-
-    if (isHudOn) {  
-        hud.style.display = 'block'
-
-    } else {
-        hud.style.display = 'none'
-    } 
+    setVisibility(hud, isHudOn);
 }
 
-function toggleNightMode(IsVehicleHeadlightsOn) {
-    const rpm_labels = document.getElementById('rpm-labels')
-    const rpm_bar = document.getElementById('rpm-bar')
-    const boost_labels = document.getElementById('boost-labels')
-    const boost_bar = document.getElementById('boost-bar')
-
-    if (IsVehicleHeadlightsOn) {
-        rpm_labels.src = 'img/background/night_labels_8k.png'
-        rpm_bar.src = 'img/rpm_bar/night_rpm_bar.png'
-        boost_labels.src = 'img/boost-background/night_labels_bar.png'
-        boost_bar.src = 'img/boost_bar/night_boost_bar.png'
-    } else {
-        rpm_labels.src = 'img/background/labels_8k.png'
-        rpm_bar.src = 'img/rpm_bar/rpm_bar.png'
-        boost_labels.src = 'img/boost-background/labels_bar.png'
-        boost_bar.src = 'img/boost_bar/boost_bar.png'
-    }
+function toggleTurboGaugeVisibility(isInstalled) {
+    setVisibility(boostGauge, isInstalled);
 }
 
-function toggleTurboGaugeVisibility(isVehicleTurboInstaled) {
-    const boostGauge = document.getElementById('boost-gauge')
-
-    if (isVehicleTurboInstaled) {  
-        boostGauge.style.display = 'block'
-
-    } else {
-        boostGauge.style.display = 'none'
-    } 
+function toggleNightMode(headlightsOn) {
+    rpmLabels.src = headlightsOn ? 'img/background/night_labels_8k.png' : 'img/background/labels_8k.png';
+    rpmBar.src = headlightsOn ? 'img/rpm_bar/night_rpm_bar.png' : 'img/rpm_bar/rpm_bar.png';
+    boostLabels.src = headlightsOn ? 'img/boost-background/night_labels_bar.png' : 'img/boost-background/labels_bar.png';
+    boostBar.src = headlightsOn ? 'img/boost_bar/night_boost_bar.png' : 'img/boost_bar/boost_bar.png';
 }
 
 function updateSpeedImages(speed) {
-    const speedStr = speed.toString().padStart(3, '0')
-    const digits = ['digit1', 'digit2', 'digit3']
+    const speedStr = speed.toString().padStart(3, '0');
 
-    digits.forEach((id, index) => {
-        const digit = document.getElementById(id)
-        const char = speedStr.charAt(index)
+    for (let i = 0; i < 3; i++) {
+        const char = speedStr.charAt(i);
+        const digit = speedDigits[i];
 
-        if (speed === 0) {
-            digit.style.visibility = index === 2 ? 'visible' : 'hidden' 
-        } else {
-            digit.style.visibility = char !== '0' || speedStr.slice(0, index).includes('1') || speedStr.slice(0, index).includes('2') || speedStr.slice(0, index).includes('3') || speedStr.slice(0, index).includes('4') || speedStr.slice(0, index).includes('5') || speedStr.slice(0, index).includes('6') || speedStr.slice(0, index).includes('7') || speedStr.slice(0, index).includes('8') || speedStr.slice(0, index).includes('9') ? 'visible' : 'hidden'
-        }
-
-        digit.src = `img/speed_digits/speed_digits_${char}.png`
-    })
-}
-
-function updateRpmPointer(rpm) {
-    const pointer = document.getElementById('rpm-bar')
-    const maxAngle = 120
-    const minAngle = -120
-
-    const rotation = minAngle + (rpm * (maxAngle - minAngle))
-    pointer.style.transform = `rotate(${rotation}deg)`
+        const isVisible = (speed !== 0 && speedStr.slice(0, i).match(/[1-9]/)) || i === 2 || char !== '0';
+        digit.style.visibility = isVisible ? 'visible' : 'hidden';
+        digit.src = `img/speed_digits/speed_digits_${char}.png`;
+    }
 }
 
 function updateGearImages(gear) {
-    const gearElement = document.getElementById('gear-digit')
-    gearElement.src = `img/gears/gear_${gear}.png`
+    gearElement.src = `img/gears/gear_${gear}.png`;
+}
+
+function updateRpmPointer(rpm) {
+    const minAngle = -120;
+    const maxAngle = 120;
+    const rotation = minAngle + (rpm * (maxAngle - minAngle));
+
+    rpmBar.style.transition = 'transform 0.5s';
+    rpmBar.style.transform = `rotate(${rotation}deg)`;
 }
 
 function updateTurboPointer(turbo) {
-    const pointer = document.getElementById('boost-bar')
-    const minAngle = -133
-    const maxAngle = 0
-    const minPressure = -1
-    const maxPressure = 1
+    const minTurbo = -1.0;
+    const maxTurbo = 3.0;
 
-    const rotation = minAngle + ((turbo - minPressure) * (maxAngle - minAngle) / (maxPressure - minPressure))
-    pointer.style.transform = `rotate(${rotation}deg)`
+    const minAngle = -133;
+    const maxAngle = 133;   
+
+    const clamped = Math.max(minTurbo, Math.min(maxTurbo, turbo));
+    const normalized = (clamped - minTurbo) / (maxTurbo - minTurbo);
+    const rotation = minAngle + normalized * (maxAngle - minAngle);
+
+    boostBar.style.transform = `rotate(${rotation}deg)`;
 }
- 
