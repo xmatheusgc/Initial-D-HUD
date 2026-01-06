@@ -1,3 +1,56 @@
+/* =============================================================================
+   INITIAL-D HUD - CSS STYLESHEET
+   =============================================================================
+   This stylesheet handles all visual layout and styling for the HUD interface
+   Uses CSS custom properties (variables) for easy customization
+   ============================================================================= */
+
+/* =============================================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   =============================================================================
+   Define all magic numbers as variables for easy customization
+   Change these values to adjust the HUD layout without editing individual rules
+   ============================================================================= */
+
+:root {
+    /* Gauge dimensions */
+    --boost-gauge-width: 18vh;
+    --boost-bar-height: 95px;
+    
+    /* Boost gauge positioning */
+    --boost-top-offset: -152px;
+    --boost-left-offset: 260px;
+    --boost-bar-left: 85px;
+    --boost-bar-bottom: 80px;
+    --boost-bar-transform-y: 93%;
+    
+    /* RPM gauge positioning */
+    --rpm-right-offset: 15px;
+    --rpm-bottom-offset: 50px;
+    --rpm-bar-right: 107px;
+    --rpm-bar-bottom: 26px;
+    --rpm-bar-transform-y: 75%;
+    
+    /* Gear indicator positioning */
+    --gear-left-offset: 80px;
+    --gear-top-offset: 50px;
+    
+    /* Speedometer positioning */
+    --speed-left-offset: 5px;
+    --speed-bottom-offset: 70px;
+    --speed-unit-right: -10px;
+    --speed-unit-bottom: -15px;
+    
+    /* Animation durations */
+    --gauge-transition-duration: 0.5s;
+}
+
+/* =============================================================================
+   GLOBAL STYLES
+   =============================================================================
+   Base styles applied to all elements
+   ============================================================================= */
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -7,76 +60,143 @@
 html, body {
     height: 100%;
     display: flex;
-    justify-content: end;
-    align-items: end;
-    overflow: hidden;
+    justify-content: flex-end;  /* Position elements to the right side */
+    align-items: flex-end;       /* Position elements to the bottom */
+    overflow: hidden;            /* Hide any overflow (prevents scrollbars) */
 }
+
+/* =============================================================================
+   MAIN HUD CONTAINER
+   =============================================================================
+   Parent container for all HUD elements
+   ============================================================================= */
+
+section#hud {
+    /* Currently empty - styled by child elements */
+}
+
+/* =============================================================================
+   TURBO/BOOST GAUGE SECTION
+   =============================================================================
+   Contains the turbo pressure indicator and background
+   ============================================================================= */
 
 #boost-gauge {
     position: relative;
     width: fit-content;
 }
 
+/* Background image for boost gauge */
 .boost-background {
     position: absolute;
-    top: -152px;
-    left: 260px;
-    width: 18vh;
+    top: var(--boost-top-offset);
+    left: var(--boost-left-offset);
+    width: var(--boost-gauge-width);
 }
 
+/* Container for boost gauge needle and labels */
 .boost-section {
     position: absolute;
-    top: -152px;
-    left: 260px;
+    top: var(--boost-top-offset);
+    left: var(--boost-left-offset);
 }
 
+/* Boost gauge label image */
 #boost-labels {
-    width: 18vh;
+    width: var(--boost-gauge-width);
 }
 
+/* Boost gauge needle (rotates based on turbo pressure) */
 #boost-bar {
     position: absolute;
-    transform-origin: center 93%;
+    transform-origin: center var(--boost-bar-transform-y);
     transform: rotate(-133deg);
-    transition: transform .5s;
-    left: 85px;
-    bottom: 80px;
-    height: 95px;
+    transition: transform var(--gauge-transition-duration);
+    left: var(--boost-bar-left);
+    bottom: var(--boost-bar-bottom);
+    height: var(--boost-bar-height);
 }
+
+/* =============================================================================
+   MAIN DASHBOARD SECTION
+   =============================================================================
+   Contains RPM gauge, gear indicator, and speedometer
+   ============================================================================= */
 
 .dashboard {
     position: relative;
     width: fit-content;
 }
 
-.rpm-section {
-    position: absolute;
-    right: 15px;
-    bottom: 50px; 
+/* Dashboard background image */
+.dashboard-background {
+    /* Positioned relative to parent .dashboard element */
 }
 
+/* =============================================================================
+   RPM GAUGE SECTION
+   =============================================================================
+   Contains the RPM counter and needle
+   ============================================================================= */
+
+.rpm-section {
+    position: absolute;
+    right: var(--rpm-right-offset);
+    bottom: var(--rpm-bottom-offset);
+}
+
+/* RPM gauge label image (shows scale 0-8000 RPM) */
+#rpm-labels {
+    /* Positioned relative to parent .rpm-section */
+}
+
+/* RPM gauge needle (rotates based on engine RPM) */
 #rpm-bar {
     position: absolute;
-    transform-origin: 50% 75%;
-    transition: transform .5s;
-    right: 107px;
-    bottom: 26px;   
+    transform-origin: 50% var(--rpm-bar-transform-y);
+    transition: transform var(--gauge-transition-duration);
+    right: var(--rpm-bar-right);
+    bottom: var(--rpm-bar-bottom);
 }
+
+/* =============================================================================
+   GEAR INDICATOR SECTION
+   =============================================================================
+   Displays current gear (N, 0 for Reverse, 1-6 for gears)
+   ============================================================================= */
 
 .gears-section {
     position: absolute;
-    left: 80px;
-    top: 50px;
+    left: var(--gear-left-offset);
+    top: var(--gear-top-offset);
 }
 
-.speedometer-section{
+/* Gear indicator image element */
+#gear-digit {
+    /* Image source dynamically set by JavaScript based on current gear */
+}
+
+/* =============================================================================
+   SPEEDOMETER SECTION
+   =============================================================================
+   Displays current speed with 3 individual digit elements + unit (km/h)
+   ============================================================================= */
+
+.speedometer-section {
     position: absolute;
-    left: 5px;
-    bottom: 70px;
+    left: var(--speed-left-offset);
+    bottom: var(--speed-bottom-offset);
 }
 
+/* Individual speed digit image */
+.speed-digits {
+    /* Each digit element is updated dynamically by JavaScript */
+    /* Three elements: hundreds, tens, ones place */
+}
+
+/* Speed unit indicator (km/h or other unit) */
 #speed-unit {
     position: absolute;
-    right: -10px;
-    bottom: -15px;
+    right: var(--speed-unit-right);
+    bottom: var(--speed-unit-bottom);
 }

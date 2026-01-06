@@ -1,41 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initial-D HUD</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <section id="hud">
-        <div id="boost-gauge">
-            <img class="boost-background" src="img/boost-background/boost-background.png">
+    <!-- Main HUD container -->
+    <section id="hud" role="region" aria-label="Vehicle HUD Display">
+        
+        <!-- ================================================================
+             TURBO/BOOST GAUGE SECTION
+             Displays turbo pressure with gauge and needle
+             ================================================================ -->
+        <div id="boost-gauge" role="region" aria-label="Turbo Pressure Gauge">
+            <img class="boost-background" 
+                 src="img/boost-background/boost-background.png" 
+                 alt="Turbo gauge background"
+                 role="presentation">
 
-            <div class="boost-section">
-                <img id="boost-labels" src="img/boost-background/labels_bar.png">
-                <img id="boost-bar" src="img/boost_bar/boost_bar.png">
+            <div class="boost-section" aria-hidden="true">
+                <img id="boost-labels" 
+                     src="img/boost-background/labels_bar.png"
+                     alt="Turbo pressure scale labels"
+                     role="presentation">
+                <img id="boost-bar" 
+                     src="img/boost_bar/boost_bar.png"
+                     alt="Turbo gauge needle"
+                     role="presentation">
             </div>
         </div>
 
-        <div class="dashboard">
-            <img class="dashboard-background" src="img/background/background.png">
+        <!-- ================================================================
+             MAIN DASHBOARD SECTION
+             Contains RPM gauge, gear display, and speedometer
+             ================================================================ -->
+        <div class="dashboard" role="region" aria-label="Vehicle Dashboard">
+            <img class="dashboard-background" 
+                 src="img/background/background.png"
+                 alt="Dashboard background"
+                 role="presentation">
 
-            <div class="rpm-section">
-                <img id="rpm-labels" src="img/background/labels_8k.png">
-                <img id="rpm-bar" src="img/rpm_bar/rpm_bar.png">
+            <!-- RPM Gauge Section -->
+            <div class="rpm-section" role="region" aria-label="RPM Gauge">
+                <img id="rpm-labels" 
+                     src="img/background/labels_8k.png"
+                     alt="RPM scale labels (0-8000)"
+                     role="presentation">
+                <img id="rpm-bar" 
+                     src="img/rpm_bar/rpm_bar.png"
+                     alt="RPM gauge needle"
+                     role="presentation">
             </div>
 
-            <div class="gears-section">
-                <img id="gear-digit" src="img/gears/gear_N.png">
+            <!-- Gear Indicator Section -->
+            <div class="gears-section" role="region" aria-label="Current Gear Indicator">
+                <img id="gear-digit" 
+                     src="img/gears/gear_N.png"
+                     alt="Current gear (N for Neutral)"
+                     role="presentation">
             </div>
 
-            <div class="speedometer-section">
-                <img class="speed-digits" id="digit1" src="img/speed_digits/speed_digits_0.png">
-                <img class="speed-digits" id="digit2" src="img/speed_digits/speed_digits_0.png">
-                <img class="speed-digits" id="digit3" src="img/speed_digits/speed_digits_0.png">
+            <!-- Speedometer Section -->
+            <div class="speedometer-section" role="region" aria-label="Speedometer">
+                <!-- Speed digit displays (hundreds, tens, ones) -->
+                <img class="speed-digits" 
+                     id="digit1" 
+                     src="img/speed_digits/speed_digits_0.png"
+                     alt="Speed hundreds digit"
+                     role="presentation">
+                <img class="speed-digits" 
+                     id="digit2" 
+                     src="img/speed_digits/speed_digits_0.png"
+                     alt="Speed tens digit"
+                     role="presentation">
+                <img class="speed-digits" 
+                     id="digit3" 
+                     src="img/speed_digits/speed_digits_0.png"
+                     alt="Speed ones digit"
+                     role="presentation">
 
-                <img id="speed-unit" src="img/speed_unit/kmh.png">
+                <!-- Speed unit indicator (km/h) -->
+                <img id="speed-unit" 
+                     src="img/speed_unit/kmh.png"
+                     alt="Speed unit: kilometers per hour"
+                     role="presentation">
             </div>
         </div>
     </section>
+
+    <!-- Load the HUD script -->
     <script src="js/script.js"></script>
 </body>
 </html>

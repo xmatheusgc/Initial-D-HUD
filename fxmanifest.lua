@@ -17,7 +17,6 @@ files {
     'web/img/background/*',
     'web/img/boost_bar/*',
     'web/img/gears/*',
-    'web/img/pedal/*',
     'web/img/rpm_bar/*',
     'web/img/speed_digits/*',
     'web/img/speed_unit/*',
